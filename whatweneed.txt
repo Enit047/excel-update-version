@@ -1,5 +1,5 @@
 Webpack
-    Bubble
+    Babel
     Sass
     EsLint
     2 mods
