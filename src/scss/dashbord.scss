@@ -1,0 +1,105 @@
+@import '_mixins.scss';
+@import '_variables.scss';
+
+.db {
+    position: relative;
+    max-width: 100%;
+
+    &__header  {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: $height-header-dashbord;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: #fff;
+        box-shadow: 0 2px 5px 2px rgba(60, 64, 67, 0.15);
+        z-index: 100;
+    }
+
+    &__new {
+        margin-top: $height-header-dashbord;
+        padding: 20px;
+        background: #dce0e4;
+    }
+
+    &__create {
+        height: 120px;
+        width: 130px;
+        background-color: #fff;
+        border: 1px solid #dce0e4;
+        
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+
+        text-decoration: none;
+        font-size: 1.3rem;
+        color: #000;
+        font-weight: 500;
+        border-radius: 25px;
+        transition: .2s border, .2s color;
+
+        &:hover {
+            border: 2px solid #00a500;
+            cursor: pointer;
+            color: green;
+        }
+    }
+
+    &__view {
+        width: 900px;
+        margin: 0 auto;
+    }
+
+    &__tables {
+        padding: 1rem;
+    }
+
+    &__list-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 10px;
+        padding: 0 12px;
+        font-weight: 500;
+        font-size: 1.3rem;
+    }
+
+    .list {
+        @include list;
+        &__item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+            margin-bottom: 20px;
+            cursor: pointer;
+            border-radius: 25px;
+            transition: .2s background-color;
+
+            &:hover {
+                background-color: #e6f4ea;
+            }
+        }
+
+        &__name {
+            text-decoration: none;
+            font-size: 16px;
+            color: #202124;
+            cursor: pointer;
+
+            &:hover {
+                text-decoration: underline;
+            }
+        }
+
+        &__date {
+
+        }
+
+    }
+}

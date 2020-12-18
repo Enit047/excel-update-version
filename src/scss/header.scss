@@ -1,0 +1,51 @@
+@import '_mixins.scss';
+@import '_variables.scss';
+
+.excel__header {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: $height-header;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 13px 18px;
+
+    // temperary
+    // background-color: rgb(229, 233, 233);
+
+    & .buttons {
+        min-width: 78px;  
+        display: flex;
+        justify-content: space-between;      
+    }
+
+    & .input {
+        min-width: 1px;
+        height: 30px;
+        font-size: 22px;
+        font-weight: 500;
+        color: rgba(0, 0, 0, 0.356);
+        margin: 0;
+        padding: 3px 5px;
+        border: 1px solid transparent;
+        line-height: 25px;
+        outline: none;
+        border-radius: 2px;
+        transition: .4s border;
+
+        &:hover {
+            border: 1px solid $border-color;
+        }
+
+        &:focus {
+            border: 2px solid #1a73e8;
+            color:rgba(0, 0, 0, 0.8);
+        }
+    }
+
+    & .button{
+        @include button(red)
+    }
+}
