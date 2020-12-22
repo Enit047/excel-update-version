@@ -38,6 +38,28 @@ class Dom {
             this.$el.appendChild(domNode)
         }
     }
+
+    get data() {
+        return this.$el.dataset
+    }
+
+    findAll(selector) {
+        return this.$el.querySelectorAll(selector)
+    }
+
+    css(styles = {}) {
+        Object.keys(styles).forEach(style => {
+            this.$el.style[style] = styles[style]
+        })
+    }
+
+    closest(selector) {
+        return $(this.$el.closest(selector))
+    }
+
+    getCoords() {
+        return this.$el.getBoundingClientRect()
+    }
 }
 
 export function $(selector) {

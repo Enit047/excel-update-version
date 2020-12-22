@@ -1,21 +1,27 @@
 
-function createCell() {
+function createCell(_, i) {
     return `
-        <div class="cell" contenteditable></div>
+        <div class="cell" contenteditable data-col="${i + 1}"></div>
     `
 }
 
-function createCol(letter) {
+function createCol(letter, i) {
     return `
-        <div class="column">${letter}</div>
+        <div class="column" data-type="resizable" data-col="${i + 1}">
+            ${letter}
+            <div class="col-resize" data-resize="col"></div>
+        </div>
     `
 }
 
-function createRow(data, info = '', ) {
+function createRow(data, info) {
     return `
-        <div class="row">
+        <div class="row" data-type="resizable">
 
-            <div class="row-info">${info}</div>
+            <div class="row-info">
+                ${info || ''}
+                ${info ? `<div class="row-resize" data-resize="row"></div>` : ''}
+            </div>
 
             <div class="row-data">${data}</div>
 
@@ -34,7 +40,7 @@ export function createTable(row = 30) {
     // _ - aint used arg
     const cols = new Array(lengthLine).fill('').map((_, i) => String.fromCharCode(CODES.A + i)).map(createCol).join('')
 
-    arrHtml.push(createRow(cols))
+    arrHtml.push(createRow(cols, null))
 
     for (let i = 0; i < row; i++) {
         const cells = new Array(lengthLine).fill('').map(createCell).join('')
