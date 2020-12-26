@@ -1,8 +1,10 @@
 
-function createCell(_, i) {
-    return `
-        <div class="cell" contenteditable data-col="${i + 1}"></div>
-    `
+function createCell(row) {
+    return (_, i) => {
+        return `
+            <div class="cell" contenteditable data-col="${i + 1}" data-type="cell" data-id="${row}:${i}"></div>
+        `
+    }
 }
 
 function createCol(letter, i) {
@@ -37,13 +39,13 @@ const CODES = {
 export function createTable(row = 30) {
     const lengthLine = CODES.Z - CODES.A + 1
     const arrHtml = []
-    // _ - aint used arg
+    // _ - ain't used arg
     const cols = new Array(lengthLine).fill('').map((_, i) => String.fromCharCode(CODES.A + i)).map(createCol).join('')
 
     arrHtml.push(createRow(cols, null))
 
     for (let i = 0; i < row; i++) {
-        const cells = new Array(lengthLine).fill('').map(createCell).join('')
+        const cells = new Array(lengthLine).fill('').map(createCell(i)).join('')
         arrHtml.push(createRow(cells, i + 1))
     }
 

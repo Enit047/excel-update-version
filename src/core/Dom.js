@@ -14,6 +14,14 @@ class Dom {
         return this.$el.outerHTML.trim()
     }
 
+    text(text) {
+        if (typeof text === 'string') {
+            this.$el.textContent = text
+            return this
+        }
+        return this.$el.textContent
+    }
+
     on(eventType, callback) {
         this.$el.addEventListener(eventType, callback)
     }
@@ -25,6 +33,33 @@ class Dom {
     clear() {
         this.html('')
         return this
+    }
+
+    find(selector) {
+        return $(this.$el.querySelector(selector))
+    }
+
+    addClass(selector) {
+        return this.$el.classList.add(selector)
+    }
+
+    removeClass(selector) {
+        return this.$el.classList.remove(selector)
+    }
+
+    id(parse) {
+        if (parse) {
+            const parse = this.id().split(':')
+            return {
+                row: +parse[0],
+                col: +parse[1]
+            }
+        }
+        return this.data.id
+    }
+
+    focus() {
+        this.$el.focus()
     }
 
     append(domNode) {
