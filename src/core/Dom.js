@@ -15,11 +15,23 @@ class Dom {
     }
 
     text(text) {
-        if (typeof text === 'string') {
-            this.$el.textContent = text
+        if (this.$el.tagName === 'INPUT') {
+            return this.$el.value
+        } else {
+            if (typeof text === 'string') {
+                this.$el.textContent = text
+                return this
+            }
+            return this.$el.textContent
+        }
+    }
+
+    attr(nameAttr, value) {
+        if (value) {
+            this.$el.setAttribute(nameAttr, value)
             return this
         }
-        return this.$el.textContent
+        return this.$el.getAttribute(nameAttr)
     }
 
     on(eventType, callback) {
@@ -86,6 +98,13 @@ class Dom {
         Object.keys(styles).forEach(style => {
             this.$el.style[style] = styles[style]
         })
+    }
+
+    getStyles(arr = []) {
+        return arr.reduce((obj, style) => {
+            obj[style] = this.$el.style[style]
+            return obj
+        }, {})
     }
 
     closest(selector) {

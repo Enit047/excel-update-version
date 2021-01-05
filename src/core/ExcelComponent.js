@@ -5,15 +5,28 @@ export class ExcelComponent extends DOMListener {
         super($root, options.listeners)
         this.name = options.name || ''
         this.emitter = options.emitter
+        this.store = options.store
         this.unsubcribe = []
+        this.subscribers = options.subscribers || []
         this.prepare()
     }
 
     prepare() {}
 
+    stateChanged() {}
+
+    isWatching(key) {
+        return this.subscribers.includes(key)
+    }
+
     $emit(eventName, ...args) {
         this.emitter.emit(eventName, ...args)
     }
+
+    $dispatch(action) {
+        this.store.dispatch(action)
+    }
+    
 
     $sub(eventName, fn) {
         const unsub = this.emitter.subscribe(eventName, fn)
