@@ -1,5 +1,4 @@
 import { ExcelComponent } from '@core/ExcelComponent';
-import { parse } from '../../core/parse';
 
 export class Formula extends ExcelComponent {
     static className = 'excel__formula'
