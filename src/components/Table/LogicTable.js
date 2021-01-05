@@ -5,12 +5,20 @@ export class LogicTable {
         this.current = null
     }
 
+    get ids() {
+        return this.group.map($el => $el.id())
+    }
+
     select($el) {
         this.clear()
         this.group.push($el)
         this.current = $el
         $el.addClass(LogicTable._selected)
         $el.focus()
+    }
+
+    applyStyles(style) {
+        this.group.forEach(el => el.css(style))
     }
 
     clear() {

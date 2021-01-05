@@ -1,4 +1,5 @@
 import { ExcelComponent } from '@core/ExcelComponent';
+import { parse } from '../../core/parse';
 
 export class Formula extends ExcelComponent {
     static className = 'excel__formula'
@@ -7,6 +8,7 @@ export class Formula extends ExcelComponent {
         super($root, {
             name: 'Formula',
             listeners: ['input', 'keydown'],
+            subscribers: ['currentText'],
             ...options
         })
     }
@@ -21,15 +23,14 @@ export class Formula extends ExcelComponent {
     init() {
         super.init()
         this.$formula = this.$root.find('#input')
-        this.$sub('table:selected', $cell => {
-            this.$formula.text($cell.text())
-        })
-        this.$sub('table:input', $cell => {
-            this.$formula.text($cell.text())
-        })
-        this.$sub('table:click', $cell => {
-            this.$formula.text($cell.text())
-        })
+        // My opinion about this weird situation
+        // this.$sub('table:click', $cell => {
+        //     this.$formula.text($cell.data.value ? $cell.data.value : $cell.text())
+        // })
+    }
+
+    stateChanged(state) {
+        this.$formula.text(state.currentText)
     }
 
     onKeydown(eve) {

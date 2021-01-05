@@ -5,6 +5,10 @@ import {shouldResize} from './table.functions.js'
 import {LogicTable} from './LogicTable'
 import {nextSelector, isCell, matrix} from '@/components/Table/table.functions';
 import {$} from '@core/Dom';
+import * as actions from '@/redux/actions';
+import {applyStylesAction, changeCurrentText, currentStylesAction} from '@/redux/actions';
+import {defaultStyle} from '@/constants';
+import { parse } from '../../core/parse';
 
 export class Table extends ExcelComponent {
     static className = 'excel__table'
@@ -26,19 +30,30 @@ export class Table extends ExcelComponent {
     }
 
     toHTML() {
-        return createTable(this.BORDERS.MAX_VALUE_ROW)
+        return createTable(this.BORDERS.MAX_VALUE_ROW, this.store.getState())
     }
 
     init() {
         super.init()
 
         const cellB = this.$root.find('[data-id="0:0"]')
-        this.selecton.select(cellB)
-        this.$sub('formula:input', text => this.selecton.current.text(text))
+        this.selectedCell(cellB)
+        this.$sub('formula:input', text => {
+            this.selecton.current
+                .attr('data-value', text)
+                .text(parse(text))
+            this.updateTextInStorage(text)
+        })
         this.$sub('formula:enter', () => {
             this.selecton.current.focus()
         })
-        this.$emit('table:selected', cellB)
+        this.$sub('toolbar:choose', value => {
+            this.selecton.applyStyles(value)
+            this.$dispatch(applyStylesAction({
+                value,
+                ids: this.selecton.ids
+            }))
+        })
     }
 
     onKeydown(eve) {
@@ -48,28 +63,51 @@ export class Table extends ExcelComponent {
             eve.preventDefault()
             const {col, row} = nextSelector(this.selecton.current, key, this.BORDERS)
             const next = this.$root.find(`[data-id="${row}:${col}"]`)
-            this.selecton.select(next)
-            this.$emit('table:selected', next)
+            this.selectedCell(next)
         }
+    }
+
+    async dispatchResize(eve) {
+        try {
+            const data = await tableResizeFun(eve, this.$root)
+            this.$dispatch($(eve.target).closest(`[data-type="row"]`).$el ? actions.tableResizeActionRow(data) : actions.tableResizeActionCol(data))
+        } catch (e) {
+            console.warn('Error', e.message)
+        }
+    }
+
+    selectedCell($el) {
+        this.selecton.select($el)
+        this.$emit('table:click', $el)
+        // My opinion about this weird situation
+        this.updateTextInStorage($el.text())
+        // -------------------------------------
+        this.$dispatch(currentStylesAction($el.getStyles(Object.keys(defaultStyle))))
     }
 
     onMousedown(eve) {
         if (shouldResize(eve)) {
-            tableResizeFun(eve, this.$root)
+            this.dispatchResize(eve)
         } else if (isCell(eve)) {
             const $selectedElem = $(eve.target)
             if (eve.shiftKey) {
                 const group = matrix(this.selecton.current, $selectedElem).map(i => this.$root.find(`[data-id="${i}"]`))
                 this.selecton.selectGroup($selectedElem, group)
             } else {
-                this.selecton.select($selectedElem)
+                this.selectedCell($selectedElem)
             }
-            this.$emit('table:click', $selectedElem)
         }
     }
 
+    updateTextInStorage(text) {
+        this.$dispatch(changeCurrentText({
+            text,
+            id: this.selecton.current.id()
+        }))
+    }
+
     onInput(eve) {
-        this.$emit('table:input', $(eve.target))
+        this.updateTextInStorage($(eve.target).text())
     }
 }
 
