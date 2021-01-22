@@ -5,6 +5,14 @@
     position: relative;
     max-width: 100%;
 
+    &__error {
+        text-align: center;
+        margin-top: 40px;
+        font-weight: 500;
+        font-size: 20px;
+        color:rgba(53, 53, 53, 0.863);
+    }
+
     &__header  {
         position: fixed;
         top: 0;

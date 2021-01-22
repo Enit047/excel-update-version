@@ -1,4 +1,4 @@
-import {APPLY_STYLES, CHANGE_TEXT, CURRENT_STYLES, TABLE_RESIZE_COL, TABLE_RESIZE_ROW, CHANGE_NAME} from '@/redux/types';
+import {APPLY_STYLES, CHANGE_TEXT, CURRENT_STYLES, TABLE_RESIZE_COL, TABLE_RESIZE_ROW, CHANGE_NAME, UPDATE_DATE} from '@/redux/types';
 
 // Pure Function (x Side Effects)
 export function rootReducer(state, action) {
@@ -31,6 +31,11 @@ export function rootReducer(state, action) {
                 ...state,
                 nameOfFile: action.data.value 
             }
+        case UPDATE_DATE:
+            return {
+                ...state,
+                timeofCreation: Date.now()
+            }    
         default: return state
     }
 }
