@@ -5,3 +5,7 @@ export const defaultStyle = {
     textDecoration: 'none'
 }
 export const tableName = 'New table'
+
+export function preventMenu(e) {
+    e.preventDefault()
+}

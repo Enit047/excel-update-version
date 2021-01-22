@@ -1,4 +1,4 @@
-import {APPLY_STYLES, CHANGE_TEXT, CURRENT_STYLES, TABLE_RESIZE_COL, TABLE_RESIZE_ROW, CHANGE_NAME} from '@/redux/types';
+import {APPLY_STYLES, CHANGE_TEXT, CURRENT_STYLES, TABLE_RESIZE_COL, TABLE_RESIZE_ROW, CHANGE_NAME, UPDATE_DATE} from '@/redux/types';
 
 // Actions Creator ===================
 export function tableResizeActionCol(data) {
@@ -44,3 +44,9 @@ export function changeName(value) {
         }
     }
 } 
+
+export function updateDate() {
+    return {
+        type: UPDATE_DATE,
+    }
+}
